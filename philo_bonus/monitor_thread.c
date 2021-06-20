@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:09 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/10 07:54:13 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/20 07:41:03 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		is_philo_death(t_philo *philo)
 {
 	int i;
 
-	if((int)(get_timestamp() - philo->last_eat) >= g_info->time_to_die)
+	if ((int)(get_timestamp() - philo->last_eat) >= g_info->time_to_die)
 	{
 		print_log(philo->num, LOG_DIE);
 		sem_post(g_info->sem_end);
@@ -31,9 +31,9 @@ int		is_philo_death(t_philo *philo)
 void	is_must_eat(t_philo *philo)
 {
 	if (g_info->must_eat != -1 && philo->time_eat >= \
-		g_info->must_eat)
+	g_info->must_eat)
 	{
-		sem_post(g_info->sem_stop);	
+		sem_post(g_info->sem_stop);
 	}
 }
 
@@ -46,6 +46,7 @@ void	*monitor_count_thread(void *arg)
 	while (i++ < g_info->philo_count)
 		sem_wait(g_info->sem_stop);
 	sem_post(g_info->sem_end);
+	return (0);
 }
 
 void	init_monitor(void)

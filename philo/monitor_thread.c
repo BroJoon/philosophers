@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/10 07:55:26 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/10 07:56:25 by hyungjki         ###   ########lyon.fr   */
+/*   Created: 2021/06/20 07:21:17 by hyungjki          #+#    #+#             */
+/*   Updated: 2021/06/20 07:41:29 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ int		is_philo_death(void)
 	i = 0;
 	while (i < g_info->philo_count)
 	{
-		if ((int)(get_timestamp() - g_info->philos[i].last_eat) >= g_info->time_to_die)
+		if ((int)(get_timestamp() - g_info->philos[i].last_eat) >= \
+		g_info->time_to_die)
 			return (i);
 		i++;
 	}
 	return (-1);
 }
 
-int		is_must_eat()
+int		is_must_eat(void)
 {
 	int i;
 
@@ -52,14 +53,15 @@ void	*monitor_thread(void *arg)
 		if ((n = is_philo_death()) != -1)
 		{
 			print_log(n, LOG_DIE);
-			break;
+			break ;
 		}
 		if (is_must_eat())
-			break;
+			break ;
 		usleep(5000);
 	}
 	g_info->end = 1;
 	usleep(1000);
+	return (0);
 }
 
 void	ft_sleep(int milis)

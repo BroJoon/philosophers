@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/10 07:55:01 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/10 07:56:30 by hyungjki         ###   ########lyon.fr   */
+/*   Created: 2021/06/20 07:21:27 by hyungjki          #+#    #+#             */
+/*   Updated: 2021/06/20 07:39:38 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int		ft_isspace(char c)
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-int	ft_atoi(const char *str)
+int				ft_atoi(const char *str)
 {
 	int				number;
 	unsigned char	*ptr;
@@ -41,21 +41,21 @@ int	ft_atoi(const char *str)
 
 unsigned long	init_timestamp(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-unsigned long	get_timestamp()
+unsigned long	get_timestamp(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000 + tv.tv_usec / 1000) - g_info->start_time);
 }
 
-void	print_log(int n, int type)
+void			print_log(int n, int type)
 {
 	if (type == LOG_FORK)
 		printf("[%10lums] %2d has taken a fork\n", get_timestamp(), n + 1);

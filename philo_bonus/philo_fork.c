@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:40 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/10 07:54:41 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/20 07:38:03 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	init_sem(int fork_count)
 	g_info->sem_forks = sem_open("forks", O_CREAT, S_IRWXU, fork_count);
 	sem_unlink("lock");
 	g_info->sem_lock = sem_open("lock", O_CREAT, S_IRWXU, 1);
-
 }
 
 void	pickup_fork(int philo)

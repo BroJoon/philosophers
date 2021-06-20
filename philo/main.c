@@ -5,12 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/10 07:55:47 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/10 07:55:48 by hyungjki         ###   ########lyon.fr   */
+/*   Created: 2021/06/20 07:21:01 by hyungjki          #+#    #+#             */
+/*   Updated: 2021/06/20 07:42:37 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "main.h"
 
@@ -93,7 +91,7 @@ int		main(int argc, char **argv)
 		return (1);
 	memset(g_info, 0, sizeof(t_info));
 	g_info->philo_count = ft_atoi(argv[1]);
-	if (g_info->philo_count < 2)
+	if (g_info->philo_count < 1)
 	{
 		printf("Error: wrong philo_number!\n");
 		free(g_info);

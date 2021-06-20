@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:19 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/10 07:54:32 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/20 07:26:58 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		main(int argc, char **argv)
 		return (1);
 	memset(g_info, 0, sizeof(t_info));
 	g_info->philo_count = ft_atoi(argv[1]);
-	if (g_info->philo_count < 2)
+	if (g_info->philo_count < 1)
 	{
 		printf("Error: wrong philo_number!\n");
 		free(g_info);
