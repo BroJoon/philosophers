@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 07:21:01 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/20 07:42:37 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 04:43:16 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,46 +27,54 @@ void	*philo_thread(void *arg)
 	{
 		pickup_fork(lf, philo->num);
 		pickup_fork(rf, philo->num);
-		philo->state = STATE_EAT;
+		if (g_info->end)
+			return (NULL);
 		print_log(philo->num, LOG_EAT);
-		ft_sleep(g_info->time_to_eat);
 		philo->last_eat = get_timestamp();
 		philo->time_eat++;
 		return_fork(lf);
 		return_fork(rf);
-		philo->state = STATE_SLEEP;
+		if (g_info->end)
+			return (NULL);
 		print_log(philo->num, LOG_SLEEP);
-		ft_sleep(g_info->time_to_sleep);
-		philo->state = STATE_THINK;
 	}
+	return (NULL);
 }
 
-void	set_philos(void)
+int		set_philos(void)
 {
 	int				i;
 	unsigned long	t;
 
+	if (!(g_info->philos = malloc(sizeof(t_philo) * g_info->philo_count)))
+		return (1);
 	i = -1;
-	g_info->philos = malloc(sizeof(t_philo) * g_info->philo_count);
 	t = get_timestamp();
 	while (++i < g_info->philo_count)
 	{
 		g_info->philos[i].last_eat = t;
 		g_info->philos[i].time_eat = 0;
-		g_info->philos[i].state = STATE_THINK;
 		g_info->philos[i].num = i;
 	}
+	return (0);
 }
 
-void	philo(void)
+int		philo(void)
 {
 	int			i;
 	pthread_t	*tids;
 	pthread_t	monitor_tid;
 
-	set_philos();
-	tids = malloc(sizeof(pthread_t) * (g_info->philo_count + 1));
-	init_mutexs(g_info->philo_count);
+	if (set_philos())
+		return (1);
+	if (init_mutexs(g_info->philo_count))
+		return (1);
+	if (!(tids = malloc(sizeof(pthread_t) * (g_info->philo_count + 1))))
+	{
+		free(g_info->philos);
+		free(g_info->mutexes);
+		return (1);
+	}
 	i = -1;
 	while (++i < g_info->philo_count)
 	{
@@ -76,12 +84,14 @@ void	philo(void)
 	pthread_create(&monitor_tid, NULL, monitor_thread, NULL);
 	pthread_join(monitor_tid, NULL);
 	destroy_mutexs(g_info->philo_count);
-	free(g_info->philos);
 	free(tids);
+	return (0);
 }
 
 int		main(int argc, char **argv)
 {
+	int i;
+
 	if (argc != 5 && argc != 6)
 	{
 		printf("Error: wrong arguments!\n");
@@ -102,7 +112,7 @@ int		main(int argc, char **argv)
 	g_info->time_to_sleep = ft_atoi(argv[4]);
 	g_info->must_eat = argc == 6 ? ft_atoi(argv[5]) : -1;
 	g_info->start_time = init_timestamp();
-	philo();
+	i = philo();
 	free(g_info);
-	return (0);
+	return (i);
 }

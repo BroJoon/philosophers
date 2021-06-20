@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:34 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/20 07:38:23 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 03:59:58 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@
 # include <semaphore.h>
 # include <fcntl.h>
 
-# define STATE_EAT 0
-# define STATE_THINK 1
-# define STATE_SLEEP 2
-
 # define LOG_FORK 0
 # define LOG_EAT 1
 # define LOG_SLEEP 2
@@ -36,7 +32,6 @@ typedef struct		s_philo
 {
 	int				time_eat;
 	unsigned long	last_eat;
-	int				state;
 	int				num;
 }					t_philo;
 
@@ -69,6 +64,7 @@ void				print_log(int n, int type);
 void				monitor_thread(pid_t *pids);
 void				*philo_thread_monitor(void *arg);
 int					is_philo_death(t_philo *philo);
-void				is_must_eat(t_philo *philo);
+int					is_must_eat(t_philo *philo);
+void				init_monitor(void);
 
 #endif

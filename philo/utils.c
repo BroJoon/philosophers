@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 07:21:27 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/20 07:39:38 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 01:38:43 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,17 @@ void			print_log(int n, int type)
 	if (type == LOG_FORK)
 		printf("[%10lums] %2d has taken a fork\n", get_timestamp(), n + 1);
 	else if (type == LOG_EAT)
+	{
 		printf("[%10lums] %2d is eating\n", get_timestamp(), n + 1);
+		ft_sleep(g_info->time_to_eat);
+	}
 	else if (type == LOG_SLEEP)
+	{
 		printf("[%10lums] %2d is sleeping\n", get_timestamp(), n + 1);
-	else if (type == LOG_THINK)
-		printf("[%10lums] %2d is thinking\n", get_timestamp(), n + 1);
+		ft_sleep(g_info->time_to_sleep);
+		if (!(g_info->end))
+			printf("[%10lums] %2d is thinking\n", get_timestamp(), n + 1);
+	}
 	else if (type == LOG_DIE)
 		printf("[%10lums] %2d died\n", get_timestamp(), n + 1);
 }

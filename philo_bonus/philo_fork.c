@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:40 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/20 07:38:03 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 04:25:27 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	destroy_sem(void)
 {
 	sem_close(g_info->sem_forks);
 	sem_close(g_info->sem_lock);
+	sem_close(g_info->sem_end);
+	sem_close(g_info->sem_stop);
 }
 
 void	ft_sleep(int milis)

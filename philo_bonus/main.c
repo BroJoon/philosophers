@@ -6,22 +6,26 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:19 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/20 07:26:58 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 04:47:15 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include <stdio.h>
 
 t_info *g_info;
 
 void	*philo_thread_monitor(void *arg)
 {
 	t_philo *philo;
+	int		flag;
 
+	flag = 0;
 	philo = arg;
 	while (!is_philo_death(philo))
 	{
-		is_must_eat(philo);
+		if (!flag)
+			flag = is_must_eat(philo);
 		usleep(50);
 	}
 	return (NULL);
@@ -35,19 +39,17 @@ void	*philo_thread(t_philo *philo)
 	pthread_detach(tid);
 	while (1)
 	{
-		is_philo_death(philo);
 		pickup_fork(philo->num);
-		philo->state = STATE_EAT;
 		print_log(philo->num, LOG_EAT);
 		ft_sleep(g_info->time_to_eat);
 		philo->last_eat = get_timestamp();
 		philo->time_eat++;
 		return_fork();
-		philo->state = STATE_SLEEP;
 		print_log(philo->num, LOG_SLEEP);
 		ft_sleep(g_info->time_to_sleep);
-		philo->state = STATE_THINK;
+		print_log(philo->num, LOG_THINK);
 	}
+	return (0);
 }
 
 void	set_philos(void)
@@ -56,27 +58,28 @@ void	set_philos(void)
 	unsigned long	t;
 
 	i = -1;
-	g_info->philos = malloc(sizeof(t_philo) * g_info->philo_count);
+	if (!(g_info->philos = malloc(sizeof(t_philo) * g_info->philo_count)))
+		exit(1);
 	t = get_timestamp();
 	while (++i < g_info->philo_count)
 	{
 		g_info->philos[i].last_eat = t;
 		g_info->philos[i].time_eat = 0;
-		g_info->philos[i].state = STATE_THINK;
 		g_info->philos[i].num = i;
 	}
 }
 
 void	philo(void)
 {
-	int			i;
 	pid_t		*pids;
+	int			i;
 
-	set_philos();
 	init_monitor();
-	pids = malloc(sizeof(pid_t) * (g_info->philo_count + 3));
+	if (!(pids = malloc(sizeof(pid_t) * (g_info->philo_count + 3))))
+		exit(1);
 	init_sem(g_info->philo_count);
 	i = -1;
+	set_philos();
 	while (++i < g_info->philo_count)
 	{
 		if ((pids[i] = fork()) == 0)

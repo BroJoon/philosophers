@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 07:21:17 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/20 07:41:29 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 00:42:01 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,22 @@ void	*monitor_thread(void *arg)
 {
 	int n;
 
-	n = (int)arg;
+	(void)arg;
 	while (1)
 	{
 		if ((n = is_philo_death()) != -1)
 		{
+			g_info->end = 1;
 			print_log(n, LOG_DIE);
 			break ;
 		}
 		if (is_must_eat())
+		{
+			g_info->end = 1;
 			break ;
-		usleep(5000);
+		}
+		usleep(500);
 	}
-	g_info->end = 1;
 	usleep(1000);
 	return (0);
 }

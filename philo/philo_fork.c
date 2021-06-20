@@ -6,30 +6,35 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 07:21:22 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/20 07:21:23 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 00:31:52 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	init_mutexs(int fork_count)
+int		init_mutexs(int fork_count)
 {
 	int	i;
 
 	i = 0;
-	g_info->mutexes = malloc(sizeof(pthread_mutex_t) * fork_count);
+	if (!(g_info->mutexes = malloc(sizeof(pthread_mutex_t) * fork_count)))
+	{
+		free(g_info->philos);
+		return (1);
+	}
 	while (i < fork_count)
 	{
 		pthread_mutex_init(&g_info->mutexes[i], NULL);
 		i++;
 	}
-	return ;
+	return (0);
 }
 
 void	pickup_fork(int n, int philo)
 {
 	pthread_mutex_lock(&g_info->mutexes[n]);
-	print_log(philo, LOG_FORK);
+	if (!g_info->end)
+		print_log(philo, LOG_FORK);
 }
 
 void	return_fork(int n)
@@ -48,4 +53,5 @@ void	destroy_mutexs(int fork_count)
 		i++;
 	}
 	free(g_info->mutexes);
+	free(g_info->philos);
 }

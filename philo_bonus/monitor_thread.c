@@ -6,44 +6,42 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:09 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/20 07:41:03 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 04:25:01 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include "stdio.h"
 
 int		is_philo_death(t_philo *philo)
 {
-	int i;
-
 	if ((int)(get_timestamp() - philo->last_eat) >= g_info->time_to_die)
 	{
 		print_log(philo->num, LOG_DIE);
 		sem_post(g_info->sem_end);
-		i = 0;
-		while (i++ < g_info->philo_count)
-			sem_post(g_info->sem_stop);
 		return (1);
 	}
 	return (0);
 }
 
-void	is_must_eat(t_philo *philo)
+int		is_must_eat(t_philo *philo)
 {
 	if (g_info->must_eat != -1 && philo->time_eat >= \
 	g_info->must_eat)
 	{
 		sem_post(g_info->sem_stop);
+		return (1);
 	}
+	return (0);
 }
 
 void	*monitor_count_thread(void *arg)
 {
 	int i;
 
-	i = (int)arg;
-	i = 0;
-	while (i++ < g_info->philo_count)
+	(void)arg;
+	i = -1;
+	while (++i < g_info->philo_count)
 		sem_wait(g_info->sem_stop);
 	sem_post(g_info->sem_end);
 	return (0);
@@ -68,6 +66,4 @@ void	monitor_thread(pid_t *pids)
 	i = -1;
 	while (++i < g_info->philo_count)
 		kill(pids[i], SIGKILL);
-	sem_close(g_info->sem_end);
-	sem_close(g_info->sem_stop);
 }
