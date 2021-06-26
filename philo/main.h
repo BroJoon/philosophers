@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 07:21:10 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/21 00:28:52 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/26 20:14:41 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ unsigned long		init_timestamp(void);
 int					ft_atoi(const char *str);
 void				ft_sleep(int milis);
 int					init_mutexs(int fork_count);
-void				pickup_fork(int n, int philo);
-void				return_fork(int n);
+void				pickup_fork(int n, int k, int philo);
+void				return_fork(int n, int k, t_philo *philo);
 void				destroy_mutexs(int fork_count);
 void				print_log(int n, int type);
 void				*monitor_thread();

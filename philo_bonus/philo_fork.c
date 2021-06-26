@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:40 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/21 04:25:27 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/26 10:23:48 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	ft_sleep(int milis)
 
 	start_time = get_timestamp();
 	while (get_timestamp() - start_time < (unsigned long)milis)
-		usleep(100);
+		usleep(50);
 }

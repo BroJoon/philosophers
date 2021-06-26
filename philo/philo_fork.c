@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 07:21:22 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/21 00:31:52 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/26 20:13:44 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,21 @@ int		init_mutexs(int fork_count)
 	return (0);
 }
 
-void	pickup_fork(int n, int philo)
+void	pickup_fork(int n, int k, int philo)
 {
 	pthread_mutex_lock(&g_info->mutexes[n]);
 	if (!g_info->end)
 		print_log(philo, LOG_FORK);
+	pthread_mutex_lock(&g_info->mutexes[k]);
+	if (!g_info->end)
+		print_log(philo, LOG_FORK);
 }
 
-void	return_fork(int n)
+void	return_fork(int n, int k, t_philo *philo)
 {
+	philo->time_eat++;
 	pthread_mutex_unlock(&g_info->mutexes[n]);
+	pthread_mutex_unlock(&g_info->mutexes[k]);
 }
 
 void	destroy_mutexs(int fork_count)

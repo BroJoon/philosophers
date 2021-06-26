@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:19 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/21 04:47:15 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/27 01:22:28 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	*philo_thread(t_philo *philo)
 
 	pthread_create(&tid, NULL, philo_thread_monitor, philo);
 	pthread_detach(tid);
+	philo->last_eat = get_timestamp();
 	while (1)
 	{
 		pickup_fork(philo->num);
@@ -48,6 +49,7 @@ void	*philo_thread(t_philo *philo)
 		print_log(philo->num, LOG_SLEEP);
 		ft_sleep(g_info->time_to_sleep);
 		print_log(philo->num, LOG_THINK);
+		usleep(200);
 	}
 	return (0);
 }
@@ -60,7 +62,7 @@ void	set_philos(void)
 	i = -1;
 	if (!(g_info->philos = malloc(sizeof(t_philo) * g_info->philo_count)))
 		exit(1);
-	t = get_timestamp();
+	t = init_timestamp();
 	while (++i < g_info->philo_count)
 	{
 		g_info->philos[i].last_eat = t;
@@ -80,6 +82,7 @@ void	philo(void)
 	init_sem(g_info->philo_count);
 	i = -1;
 	set_philos();
+	g_info->start_time = init_timestamp();
 	while (++i < g_info->philo_count)
 	{
 		if ((pids[i] = fork()) == 0)
@@ -105,17 +108,16 @@ int		main(int argc, char **argv)
 		return (1);
 	memset(g_info, 0, sizeof(t_info));
 	g_info->philo_count = ft_atoi(argv[1]);
-	if (g_info->philo_count < 1)
+	g_info->must_eat = argc == 6 ? ft_atoi(argv[5]) : -1;
+	if (g_info->philo_count < 1 || ((argc == 6) && g_info->must_eat < 1))
 	{
-		printf("Error: wrong philo_number!\n");
+		printf("Error: wrong arguments!\n");
 		free(g_info);
 		return (1);
 	}
 	g_info->time_to_die = ft_atoi(argv[2]);
 	g_info->time_to_eat = ft_atoi(argv[3]);
 	g_info->time_to_sleep = ft_atoi(argv[4]);
-	g_info->must_eat = argc == 6 ? ft_atoi(argv[5]) : -1;
-	g_info->start_time = init_timestamp();
 	philo();
 	free(g_info);
 	return (0);
