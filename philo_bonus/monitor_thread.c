@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_thread.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyungjki <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hyungjki <hyungjki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/28 11:10:08 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/28 11:10:10 by hyungjki         ###   ########.fr       */
+/*   Created: 2021/06/28 12:54:26 by hyungjki          #+#    #+#             */
+/*   Updated: 2021/06/28 12:55:31 by hyungjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 
 int		is_philo_death(t_philo *philo)
 {
+	int i;
+
 	if ((int)(get_timestamp() - philo->last_eat) > g_info->time_to_die)
 	{
 		print_log(philo->num, LOG_DIE);
+		i = -1;
+		while (++i < g_info->philo_count)
+			sem_post(g_info->sem_stop);
 		sem_post(g_info->sem_end);
 		return (1);
 	}
