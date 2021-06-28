@@ -6,31 +6,13 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 07:21:01 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/26 20:14:22 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/28 22:58:26 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 t_info *g_info;
-
-int		until(t_philo *philo)
-{
-	int		count;
-	int		right;
-	int		left;
-
-	if (g_info->end)
-		return (0);
-	count = g_info->philo_count;
-	right = (philo->num - 1 == -1) ? count - 1 : philo->num - 1;
-	left = (philo->num + 1 == count) ? 0 : philo->num + 1;
-	if (g_info->philos[right].last_eat < philo->last_eat)
-		return (1);
-	else if (g_info->philos[left].last_eat < philo->last_eat)
-		return (1);
-	return (0);
-}
 
 void	*philo_thread(void *arg)
 {
@@ -41,8 +23,6 @@ void	*philo_thread(void *arg)
 	philo = arg;
 	lf = (philo->num % 2 ? philo->num : philo->num + 1) % g_info->philo_count;
 	rf = (philo->num % 2 ? philo->num + 1 : philo->num) % g_info->philo_count;
-	if (philo->num % 2 == 1)
-		usleep(200);
 	philo->last_eat = get_timestamp();
 	while (!g_info->end)
 	{
@@ -55,8 +35,6 @@ void	*philo_thread(void *arg)
 		if (g_info->end)
 			return (NULL);
 		print_log(philo->num, LOG_SLEEP);
-		while (until(philo))
-			usleep(50);
 	}
 	return (NULL);
 }

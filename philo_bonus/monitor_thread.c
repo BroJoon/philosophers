@@ -6,7 +6,7 @@
 /*   By: hyungjki <hyungjki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 07:54:09 by hyungjki          #+#    #+#             */
-/*   Updated: 2021/06/27 01:22:52 by hyungjki         ###   ########lyon.fr   */
+/*   Updated: 2021/06/28 23:00:12 by hyungjki         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 
 int		is_philo_death(t_philo *philo)
 {
+	int i;
+
+	i = -1;
 	if ((int)(get_timestamp() - philo->last_eat) > g_info->time_to_die)
 	{
 		print_log(philo->num, LOG_DIE);
+		while (++i < g_info->philo_count)
+			sem_post(g_info->sem_stop);
 		sem_post(g_info->sem_end);
 		return (1);
 	}

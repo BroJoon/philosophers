@@ -13,7 +13,7 @@ INCLUDE = -I.
 
 all: $(NAME)
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $(NAME) -pthread -fsanitize=address
+	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $(NAME) -pthread
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
