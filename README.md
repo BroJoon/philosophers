@@ -29,4 +29,5 @@ philosopher with processes and semaphore
 > make
 > ./philo [philo_count] [time_to_die] [time_to_eat] [time_to_sleep] option([must_eat])
 > ./philo_bonus [philo_count] [time_to_die] [time_to_eat] [time_to_sleep] option([must_eat])
+example > ./philo 5 410 200 200 
 
